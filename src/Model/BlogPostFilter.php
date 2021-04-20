@@ -2,9 +2,11 @@
 
 namespace SilverStripe\Blog\Model;
 
+use Psr\Log\LoggerInterface;
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataQuery;
@@ -35,10 +37,11 @@ class BlogPostFilter extends DataExtension
         }
 
         if ($stage == 'Live' || !Permission::check('VIEW_DRAFT_CONTENT')) {
-            $query->addWhere(sprintf(
-                '"PublishDate" < \'%s\'',
-                Convert::raw2sql(DBDatetime::now())
-            ));
+            Injector::inst()->get(LoggerInterface::class)->warning('Would have done the PublishDate filter');
+//            $query->addWhere(sprintf(
+//                '"PublishDate" < \'%s\'',
+//                Convert::raw2sql(DBDatetime::now())
+//            ));
         }
     }
 
