@@ -3,11 +3,13 @@
 namespace SilverStripe\Blog\Model;
 
 use Page;
+use Psr\Log\LoggerInterface;
 use SilverStripe\Blog\Admin\GridFieldCategorisationConfig;
 use SilverStripe\Blog\Forms\GridField\GridFieldConfigBlogPost;
 use SilverStripe\CMS\Controllers\RootURLController;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig;
@@ -576,7 +578,10 @@ class Blog extends Page implements PermissionProvider
      */
     public function getBlogPosts()
     {
-        $blogPosts = BlogPost::get()->filter('ParentID', $this->ID);
+        $blogPosts = BlogPost::get()->filter(['ParentID' => $this->ID]);
+        Injector::inst()->get(LoggerInterface::class)->debug(
+            sprintf("Count: %d BlogPosts for parent ID %d", $blogPosts->count(), $this->ID)
+        );
 
         $this->extend('updateGetBlogPosts', $blogPosts);
 
