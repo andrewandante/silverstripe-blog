@@ -578,10 +578,18 @@ class Blog extends Page implements PermissionProvider
      */
     public function getBlogPosts()
     {
+        /** @var DataList $blogPosts */
         $blogPosts = BlogPost::get()->filter(['ParentID' => $this->ID]);
         Injector::inst()->get(LoggerInterface::class)->debug(
             sprintf("Count: %d BlogPosts for parent ID %d", $blogPosts->count(), $this->ID)
         );
+        Injector::inst()->get(LoggerInterface::class)->debug(
+            sprintf("SQL: %s ", $blogPosts->sql())
+        );
+        Injector::inst()->get(LoggerInterface::class)->debug(
+            sprintf("Params: %s ", $blogPosts->getQueryParams())
+        );
+
 
         $this->extend('updateGetBlogPosts', $blogPosts);
 
