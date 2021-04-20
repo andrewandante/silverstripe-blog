@@ -37,11 +37,10 @@ class BlogPostFilter extends DataExtension
         }
 
         if ($stage == 'Live' || !Permission::check('VIEW_DRAFT_CONTENT')) {
-            Injector::inst()->get(LoggerInterface::class)->warning('Would have done the PublishDate filter');
-//            $query->addWhere(sprintf(
-//                '"PublishDate" < \'%s\'',
-//                Convert::raw2sql(DBDatetime::now())
-//            ));
+            $query->addWhere(sprintf(
+                '"PublishDate" < \'%s\'',
+                Convert::raw2sql(DBDatetime::now())
+            ));
         }
     }
 

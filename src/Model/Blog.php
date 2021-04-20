@@ -587,7 +587,7 @@ class Blog extends Page implements PermissionProvider
             sprintf("SQL: %s ", $blogPosts->sql())
         );
         Injector::inst()->get(LoggerInterface::class)->debug(
-            sprintf("Params: %s ", $blogPosts->getQueryParams())
+            sprintf("Params: %s ", json_encode($blogPosts->getQueryParams()))
         );
 
 
