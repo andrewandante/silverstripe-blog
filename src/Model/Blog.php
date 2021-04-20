@@ -584,10 +584,10 @@ class Blog extends Page implements PermissionProvider
             sprintf("Count: %d BlogPosts for parent ID %d", $blogPosts->count(), $this->ID)
         );
         Injector::inst()->get(LoggerInterface::class)->debug(
-            sprintf("SQL: %s ", $blogPosts->sql())
+            sprintf("SQL: %s ", $blogPosts->sql($params))
         );
         Injector::inst()->get(LoggerInterface::class)->debug(
-            sprintf("Params: %s ", json_encode($blogPosts->getQueryParams()))
+            sprintf("Params: %s ", json_encode($params))
         );
 
 
